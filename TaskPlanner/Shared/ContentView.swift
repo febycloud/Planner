@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  TaskPlanner
+//  Shared
 //
 //  Created by Fei Yun on 2022-01-17.
 //
@@ -29,9 +29,11 @@ struct ContentView: View {
                 .onDelete(perform: deleteItems)
             }
             .toolbar {
+#if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
+#endif
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Item", systemImage: "plus")

@@ -1,13 +1,13 @@
 //
-//  TaskPlannerUITestsLaunchTests.swift
-//  TaskPlannerUITests
+//  Tests_iOSLaunchTests.swift
+//  Tests iOS
 //
 //  Created by Fei Yun on 2022-01-17.
 //
 
 import XCTest
 
-class TaskPlannerUITestsLaunchTests: XCTestCase {
+class Tests_iOSLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
