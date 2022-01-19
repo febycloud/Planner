@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F28E31162797C7B800D1DC04 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E31152797C7B800D1DC04 /* TaskViewModel.swift */; };
 		F298F43527967FEA00356205 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F298F43427967FEA00356205 /* Tests_iOS.swift */; };
 		F298F43727967FEA00356205 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F298F43627967FEA00356205 /* Tests_iOSLaunchTests.swift */; };
 		F298F44127967FEA00356205 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F298F44027967FEA00356205 /* Tests_macOS.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F28E31152797C7B800D1DC04 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		F298F41A27967FE900356205 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		F298F41B27967FE900356205 /* TaskPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPlannerApp.swift; sourceTree = "<group>"; };
 		F298F41C27967FE900356205 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,6 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F28E31102797B6C200D1DC04 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F28E31112797B6D000D1DC04 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F28E31152797C7B800D1DC04 /* TaskViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		F298F41327967FE900356205 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +120,8 @@
 		F298F41827967FE900356205 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				F28E31112797B6D000D1DC04 /* ViewModel */,
+				F28E31102797B6C200D1DC04 /* View */,
 				F298F41B27967FE900356205 /* TaskPlannerApp.swift */,
 				F298F41C27967FE900356205 /* ContentView.swift */,
 				F298F41D27967FE900356205 /* Persistence.swift */,
@@ -310,6 +329,7 @@
 				F298F44427967FEA00356205 /* TaskPlanner.xcdatamodeld in Sources */,
 				F298F44A27967FEA00356205 /* Persistence.swift in Sources */,
 				F298F44627967FEA00356205 /* TaskPlannerApp.swift in Sources */,
+				F28E31162797C7B800D1DC04 /* TaskViewModel.swift in Sources */,
 				F298F44827967FEA00356205 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
