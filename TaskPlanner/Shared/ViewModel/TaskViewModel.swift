@@ -28,23 +28,41 @@ class TaskViewModel:ObservableObject{
     
     func fetchCurrentWeek(){
         let today=Date()
-        let calender=Calendar.current
-        let week=calender.dateInterval(of: .weekOfMonth, for: today)
+        let calendar=Calendar.current
+        let week=calendar.dateInterval(of: .weekOfMonth, for: today)
         
         guard let firstWeekDay=week?.start else{
             return
         }
         
         (0..<7).forEach{ day in
-            if let weekday=calender.date(byAdding: .day, value: day, to: firstWeekDay){
+            if let weekday=calendar.date(byAdding: .day, value: day, to: firstWeekDay){
                 currentWeek.append(weekday)
             }
         
         }
     }
  
+    //extracting date
+    func extractDate(date:Date,format: String)->String{
+        let formatter=DateFormatter()
+        formatter.dateFormat=format
+        return formatter.string(from:date)
+    }
     
+    //check is today or not
+    func isToday(date:Date)->Bool{
+        let calendar=Calendar.current
+        return calendar.isDate(currentDay, inSameDayAs: date)
+    }
     
-    
-    
+    //check is current hour is take hour or not
+    func isCurrentHour(date:Date)->Bool{
+        let calendar=Calendar.current
+        let hour=calendar.component(.hour, from: date)
+        let currentHour=calendar.component(.hour, from: Date())
+        let isToday=calendar.isDateInToday(date)
+        
+        return (hour==currentHour&&isToday)
+    }
 }
