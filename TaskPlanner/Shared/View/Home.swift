@@ -8,9 +8,122 @@
 import SwiftUI
 
 struct Home: View {
+    @StateObject var taskModel:TaskViewModel=TaskViewModel()
+    @Namespace var animation
+    
+    //core data
+    @Environment(\.managedObjectContext) var context
+    //edit button
+    @Environment(\.editMode) var editButton
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.vertical,showsIndicators: false){
+            LazyVStack(spacing:15,pinnedViews: [.sectionHeaders]){
+                
+                Section{
+                    
+                    //current week view
+                    ScrollView(.horizontal,showsIndicators: false){
+                        HStack(spacing:10){
+                            ForEach(taskModel.currentWeek,id:\.self){day in
+                                VStack(spacing:10){
+                                    Text(taskModel.extractDate(date: day, format: "dd"))
+                                        .font(.system(size: 15))
+                                        .fontWeight(.semibold)
+                                    
+                                    //EEE will return day sd MON,TUE,...
+                                    Text(taskModel.extractDate(date: day, format: "EEE"))
+                                        .font(.system(size:14))
+                                    
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 8, height: 8)
+                                        .opacity(taskModel.isToday(date: day) ? 1 : 0)
+                                    
+                                }
+                                //foreground style
+                                .foregroundStyle(taskModel.isToday(date: day) ? .primary:.secondary)
+                                .foregroundColor(taskModel.isToday(date: day) ?  .white : .black)
+                                //capsile shape
+                                .frame(width: 45, height: 90)
+                                .background(
+                                    ZStack{
+                                        //matched geometry effect
+                                        if taskModel.isToday(date: day){
+                                            Capsule()
+                                                .fill(.black)
+                                                .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
+                                        }
+                                        
+                                    })
+                                .contentShape(Capsule())
+                                .onTapGesture {
+                                    //updation current day
+                                    withAnimation{
+                                        taskModel.currentDay=day
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    TasksView()
+                } header: {
+                    HeaderView()
+                }
+            }
+        }
+        .ignoresSafeArea(.container,edges:.top)
+        //add button
+        .overlay(
+            Button(action: {
+                taskModel.addNewTask.toggle()
+            }, label: {
+                Image(systemName: "plus")
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.black,in:Circle())
+            })
+                .padding()
+            ,alignment:.bottomTrailing
+        )
+        .sheet(isPresented:$taskModel.addNewTask){
+            taskModel.editTask=nil
+            
+        }content:{
+            NewTask()
+                .environmentObject(taskModel)
+        }
     }
+    //Task View
+    @ViewBuilder
+    func TaskView()->some View{
+        LazyVStack(spacing:20){
+            FilteredView(dateToFilter: taskModel.currentDay){(object:Task) in
+                TaskCardView(task:object)
+            }
+        }
+        .padding()
+        .padding(.top)
+    }
+    // MARK: task card view
+    @ViewBuilder
+    func TaskCardView(task:Task)->some View{
+        HStack(aligment: editButton ?.wrappedValue == .active? .center:.top,spacing: 30){
+            if editButton?.wrappedValue == .active{
+                VStack(spacing:10){
+                    if task.taskDate?.compare(Date())==.orderedDescending||Calendar.current.isDateInToday(task.taskDate??Date()){
+                        Button{
+                            taskModel.editTask=task
+                            taskModel.addNewTask.toggle()
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 struct Home_Previews: PreviewProvider {
