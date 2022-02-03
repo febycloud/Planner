@@ -116,9 +116,45 @@ struct Home: View {
                         Button{
                             taskModel.editTask=task
                             taskModel.addNewTask.toggle()
+                        }label:{
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.title)
+                                .foregroundColor(.primary)
                         }
                         
                     }
+                    Button{
+                        //MARK: deleting
+                        context.delete(task)
+                        
+                        try?context.save()
+                        
+                    }label:{
+                        Image(systemName: "minus.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            else{
+                VStack(spacing:10){
+                    Circle()
+                        .fill(taskModel.isCurrentHour(date: task.taskDate??Date())?(task.isComplete?.green : .black):.clear)
+                        .frame(width:15,height:15)
+                        .background(
+                            Circle()
+                                .stroke(.black,lineWidth:1)
+                                .padding(width:3)
+                        )
+                        .scaleEffect(!taskModel.isCurrentHour(date: task.taskDate ?? Date())?0.8:1)
+                    Rectangle()
+                        .fill(.black)
+                        .frame(width:3)
+                }
+            }
+            VStack{
+                HStack(alignment: .top, spacing: 10){
+                    
                 }
             }
         }
