@@ -154,11 +154,62 @@ struct Home: View {
             }
             VStack{
                 HStack(alignment: .top, spacing: 10){
-                    
+                    VStack(alignment: .leading, spacing: 12){
+                        Text(task.taskTitle ?? "")
+                            .font(.title2.bold())
+                        Text(task.taskDescription ?? "")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    }
+                    .hLeading()
+                    Text(task.taskDate?.formatted(date:.omitted,time:.shortened) ?? "")
                 }
+                if taskModel.isCurrentHour(date: task.taskDate ?? Date()){
+                    //team member
+                    HStack(spaciing:12){
+                        //check button
+                        if !task.isComplete{
+                            Button{
+                                //update task
+                                task.isComplete=true
+                                
+                                //saving
+                                try?context.save()
+                            }label:{
+                                Image(systemName:"checkmark")
+                                    .foregroundStyle(.black)
+                                    .padding(10)
+                                    .background(Color.white,in:RoundedRectangle(cornerRadius: 8))
+                            }
+                        }
+                        Text(task.isComplete ? "Completed" : "Mark as Done")
+                            .font(.system(size:task.isComplete ? 14 : 16, weight:.light))
+                            .foregroundColor(task.isComplete ? .gray : .white)
+                            .hLeading()
+                    }
+                    .padding(.top)
+                }
+                
             }
+            .foregroundColor(taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? .white : .black)
+            .padding(taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? 15 : 0)
+            .padding(.bottom,taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? 0 : 10)
+            .hLeading()
+            .background(
+                Color("Black")
+                    .cornerRadius(25)
+                    .opacity(taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? 1 : 0)
+            )
         }
+        .hLeading()
     }
+    // MARK: Header
+    func HeaderView()->some View{
+        
+    }
+    
+    
+    
     
 }
 
