@@ -67,7 +67,7 @@ struct Home: View {
                         }
                         .padding(.horizontal)
                     }
-                    TasksView()
+                    TaskView()
                 } header: {
                     HeaderView()
                 }
@@ -108,11 +108,11 @@ struct Home: View {
     }
     // MARK: task card view
     @ViewBuilder
-    func TaskCardView(task:Task)->some View{
-        HStack(aligment: editButton ?.wrappedValue == .active? .center:.top,spacing: 30){
+    func TaskCardView(task: Task)->some View{
+        HStack(alignment: editButton?.wrappedValue == .active ? .center: .top,spacing: 30){
             if editButton?.wrappedValue == .active{
                 VStack(spacing:10){
-                    if task.taskDate?.compare(Date())==.orderedDescending||Calendar.current.isDateInToday(task.taskDate??Date()){
+                    if task.taskDate?.compare(Date()) == .orderedDescending||Calendar.current.isDateInToday(task.taskDate ?? Date()){
                         Button{
                             taskModel.editTask=task
                             taskModel.addNewTask.toggle()
@@ -139,14 +139,14 @@ struct Home: View {
             else{
                 VStack(spacing:10){
                     Circle()
-                        .fill(taskModel.isCurrentHour(date: task.taskDate??Date())?(task.isComplete?.green : .black):.clear)
+                        .fill(taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? (task.isComplete ? .green : .black) : .clear)
                         .frame(width:15,height:15)
                         .background(
                             Circle()
                                 .stroke(.black,lineWidth:1)
-                                .padding(width:3)
+                                .padding(-3)
                         )
-                        .scaleEffect(!taskModel.isCurrentHour(date: task.taskDate ?? Date())?0.8:1)
+                        .scaleEffect(!taskModel.isCurrentHour(date: task.taskDate ?? Date()) ? 0.8 : 1)
                     Rectangle()
                         .fill(.black)
                         .frame(width:3)
@@ -166,7 +166,7 @@ struct Home: View {
                 }
                 if taskModel.isCurrentHour(date: task.taskDate ?? Date()){
                     //team member
-                    HStack(spaciing:12){
+                    HStack(spacing: 12){
                         //check button
                         if !task.isComplete{
                             Button{
@@ -205,11 +205,20 @@ struct Home: View {
     }
     // MARK: Header
     func HeaderView()->some View{
+        HStack(spacing:10){
+            VStack(alignment: .leading, spacing: 10){
+                Text(Date().formatted(date:.abbreviated,time:.omitted))
+                    .foregroundColor(.gray)
+                Text("Today")
+                    .font(.largeTitle.bold())
+            }
+            .hLeading()
+            EditButton()
+        }
+        .padding()
+        .padding(.top,getSafeArea().top)
         
     }
-    
-    
-    
     
 }
 
@@ -218,3 +227,35 @@ struct Home_Previews: PreviewProvider {
         Home()
     }
 }
+
+//MARK: UI helper
+extension View{
+    func hLeading()->some View{
+        self
+            .frame(maxWidth: .infinity,alignment: .leading)
+    }
+    
+    func hTrailing()->some View{
+        self
+            .frame(maxWidth: .infinity,alignment: .trailing)
+    }
+    
+    func hCenter()->some View{
+        self
+            .frame(maxWidth: .infinity,alignment: .center)
+    }
+    
+    func getSafeArea()->UIEdgeInsets{
+        guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else{
+            return .zero
+        }
+        
+        guard let safeArea = screen.windows.first?.safeAreaInsets else{
+            return .zero
+        }
+        
+        return safeArea
+    }
+    
+}
+
