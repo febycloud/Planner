@@ -24,28 +24,28 @@ struct Home: View {
                     
                     //current week view
                     ScrollView(.horizontal,showsIndicators: false){
-                        HStack(spacing:10){
+                        HStack{
                             ForEach(taskModel.currentWeek,id:\.self){day in
-                                VStack(spacing:10){
+                                VStack(spacing:12){
                                     Text(taskModel.extractDate(date: day, format: "dd"))
                                         .font(.system(size: 15))
-                                        .fontWeight(.semibold)
+                                        .fontWeight(.bold)
                                     
                                     //EEE will return day sd MON,TUE,...
                                     Text(taskModel.extractDate(date: day, format: "EEE"))
-                                        .font(.system(size:14))
+                                        .font(.system(size:15))
                                     
-                                    Circle()
-                                        .fill(.white)
-                                        .frame(width: 8, height: 8)
-                                        .opacity(taskModel.isToday(date: day) ? 1 : 0)
+                                    //Capsule()
+                                        //.fill(.white)
+                                        //.frame(width: 12, height: 12)
+                                        //.opacity(taskModel.isToday(date: day) ? 1 : 0)
                                     
                                 }
                                 //foreground style
                                 .foregroundStyle(taskModel.isToday(date: day) ? .primary:.secondary)
                                 .foregroundColor(taskModel.isToday(date: day) ?  .white : .black)
                                 //capsile shape
-                                .frame(width: 45, height: 90)
+                                .frame(width: UIScreen.main.bounds.width/9, height: 90)
                                 .background(
                                     ZStack{
                                         //matched geometry effect
@@ -130,7 +130,7 @@ struct Home: View {
                         try?context.save()
                         
                     }label:{
-                        Image(systemName: "minus.circle.fill")
+                        Image(systemName: "trash.circle.fill")
                             .font(.title)
                             .foregroundColor(.red)
                     }
